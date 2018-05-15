@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\News;
+use app\models\Category;
 
 /**
  * NewsSearch represents the model behind the search form of `app\models\News`.
@@ -18,8 +19,8 @@ class NewsSearch extends News
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['title', 'intro_text', 'full_text', 'category_id', 'user_id'], 'safe'],
+            [['id', 'category_id', 'user_id'], 'integer'],
+            [['title', 'intro_text', 'full_text'], 'safe'],
         ];
     }
 
@@ -64,7 +65,9 @@ class NewsSearch extends News
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'intro_text', $this->intro_text])
-            ->andFilterWhere(['like', 'full_text', $this->full_text]);
+            ->andFilterWhere(['like', 'full_text', $this->full_text])
+            ->andFilterWhere(['like', 'user_id', $this->user_id])
+            ->andFilterWhere(['like', 'category_id', $this->category_id]);
 
         return $dataProvider;
     }
